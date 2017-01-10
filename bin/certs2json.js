@@ -1,28 +1,23 @@
+#!/usr/bin/env node
 'use strict';
 
-var tls    = require('tls');
-var path   = require('path');
-var fs     = require('./fs');
+var path       = require('path');
+var fs         = require('../lib/tools/fs');
+const loader   = require('package.loader');
 const nativeFs = require('fs');
 
 var secureContexts = {};
 var defaultCaCerts = [];
-exports.defaultDomain;
 
-exports.readCertificate = function (certpath) {
+function readCertificate (certpath) {
   var cert = fs.readFileSync(certpath).toString();
 
   cert = cert.replace(/\r/g, '');
-  //cert = cert.replace(/PUBLIC KEY/g, 'CERTIFICATE');
 
   return cert;
-};
+}
 
-exports.getSecureContexts = function getSecureContexts () {
-  return secureContexts;
-};
-
-exports.SecureContext = function SecureContext (domain,  ssldir) {
+function readDomainCertificates (domain,  ssldir) {
   var domaindir = ssldir + path.sep + domain;
   var files     = fs.list(domaindir, 'file');
   var ca = [];
@@ -36,21 +31,21 @@ exports.SecureContext = function SecureContext (domain,  ssldir) {
 
     if (filename.match(/.*ca\.pem$/) || filename.match(/^chain\.pem$/)) {
       // domain related CA Cert
-      ca.push(exports.readCertificate(filepath));
+      ca.push(readCertificate(filepath));
       console.log('domain CA Cert:', filepath);
     }
     else if (filename.match(/.*cert\.pem$/)) {
       //
       this.certName = filename;
       this.certPath = filepath;
-      this.cert = exports.readCertificate(filepath);
+      this.cert = readCertificate(filepath);
       console.log('domain PEM:    ', filepath);
     }
     else if (filename.match(/.*key\.pem$/)) {
       //
       this.keyName = filename;
       this.keyPath = filepath;
-      this.key = exports.readCertificate(filepath);
+      this.key = readCertificate(filepath);
       console.log('domain Key:    ', filepath);
     }
   }.bind(this));
@@ -62,10 +57,13 @@ exports.SecureContext = function SecureContext (domain,  ssldir) {
     cert: this.cert,
     ca:   this.ca
   };
-};
+}
 
-exports.buildSecureContexts = function buildSecureContexts (api, force) {
-  const ssldir = '/etc/letsencrypt/live';
+exports.generateDomainCertificateList = function generateDomainCertificateList (ssldir, targetdir, force) {
+
+  ssldir    = ssldir || process.argv[2] || '/etc/letsencrypt/live';
+  targetdir = targetdir || process.argv[3] || loader.EXTERNAL.path;
+
   force = !!force;
 
   var domains = fs.list(ssldir, 'directory');
@@ -73,25 +71,20 @@ exports.buildSecureContexts = function buildSecureContexts (api, force) {
 
   files.forEach(function fileIterator (filename) {
     if (filename.match(/.*ca\.pem$/)) {
-      defaultCaCerts.push(exports.readCertificate(ssldir + path.sep + filename));
+      defaultCaCerts.push(readCertificate(ssldir + path.sep + filename));
     }
   });
 
   domains.forEach(function domainIterator (domain) {
     if (!secureContexts[domain] || force) {
-      if (!exports.defaultDomain) {
-
-        exports.defaultDomain = domain;
-      }
-
       console.log('######### '+domain+' #######################################');
-      var secureContext      = new exports.SecureContext(domain, ssldir);
+      var secureContext      = new readDomainCertificates(domain, ssldir);
       secureContexts[domain] = secureContext.options;
+      secureContexts[domain].timestamp = Date.now();
     }
   });
 
-  console.log('\n\n', '{"codersyndicate.org":'+JSON.stringify(secureContexts['codersyndicate.org'])+'}', '\n\n');
-  nativeFs.writeFileSync('DomainCertificates.json', JSON.stringify(secureContexts));
+  nativeFs.writeFileSync(targetdir + '/DomainCertificates.json', JSON.stringify(secureContexts));
 };
 
-exports.buildSecureContexts();
+//exports.generateDomainCertificateList();

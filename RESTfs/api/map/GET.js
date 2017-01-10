@@ -1,9 +1,11 @@
 'use strict';
 
-var map     = require('../../../lib/map.json');
+const RESTfsResponse  = require('restfs-lib-classes').RESTfsResponse;
+const map     = require('../../../lib/map.json');
 
 module.exports = {
-  handler: function handler (context) {
-    context.resolve(map, 'Endpoint Map');
+  handler: function returnApiMap (context) {
+    console.log('MAP', map);
+    return new RESTfsResponse(map, 200);
   }
 };
