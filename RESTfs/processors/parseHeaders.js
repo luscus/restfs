@@ -31,6 +31,8 @@ module.exports = {
           if (index > -1) {
               context.meta.headers.accepts.splice(index, 1);
           }
+
+          context.logger.debug('CONTEXT', context.meta);
       }
   }
 };
