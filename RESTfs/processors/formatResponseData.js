@@ -52,6 +52,10 @@ module.exports = {
                 context.response.data.metrics = context.metrics.toJSON();
             }
 
+            if (context.response.data && context.meta.data.query.debug) {
+                context.response.data.meta = context.meta;
+            }
+
             context.response.data = formater(context.response.data);
             return;
         }
