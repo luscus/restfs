@@ -16,12 +16,15 @@
     "deep-freeze-strict": "^1.1.1",
     "deep-lib": "^1",
     "http2": "^3.3.4",
+    "iltorb": "^1.0.13",
     "merge": "^1.2.0",
     "package.loader": "^0",
+    "pako": "^1.0.4",
     "prototype-less": "^0",
     "restfs-lib-classes": "^0",
     "restfs-lib-mapper": "^0",
-    "useragent": "^2.1.8"
+    "useragent": "^2.1.8",
+    "yamljs": "^0.2.8"
   },
   "devDependencies": {
     "chai": "^3.4.1",
