@@ -57,6 +57,9 @@ module.exports = {
             }
 
             context.response.data = formater(context.response.data);
+
+            // set content length header
+            context.http.response.setHeader('Content-Length', Buffer.byteLength(context.response.data));
             return;
         }
     }
