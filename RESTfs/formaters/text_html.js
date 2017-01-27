@@ -44,13 +44,18 @@ function formatObject (object) {
  * @returns {string} HTML List/Table Elements or a simple text value
  */
 function formatValue(value) {
-    if (value.constructor === Array) {
-        return formatArray(value);
-    } else if (value instanceof Object) {
-        return formatObject(value);
-    }
 
-    return value.toString().replace(/(\n\r|\r|\n)/g, '<br>').replace(/\t/g, '&nbsp&nbsp&nbsp&nbsp').replace(/\s/g, '&nbsp');
+    if (value) {
+        if (value.constructor === Array) {
+            return formatArray(value);
+        } else if (typeof value === 'object' && value !== null) {
+            return formatObject(value);
+        }
+
+        return value.toString().replace(/(\n\r|\r|\n)/g, '<br>').replace(/\t/g, '&nbsp&nbsp&nbsp&nbsp').replace(/\s/g, '&nbsp');
+    } else {
+        return value;
+    }
 }
 
 module.exports = {
