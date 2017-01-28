@@ -30,17 +30,14 @@ module.exports = {
                     }
                 }
 
-                if (context.meta.headers.encodings.indexOf('br') > -1) {
-                    // enforce br when ever possible
-                    responseEncoder = context.server.encoders['br']
-                }
-
                 // cache response mime type
                 encoders[encodingKey] =  responseEncoder;
             } else {
                 // retrieve cached response mime type
                 responseEncoder = encoders[encodingKey];
             }
+
+            // TODO build some kind of smart select for the right encoding: size threshold, ...
 
             if (responseEncoder) {
                 context.logger.debug('COMPRESS RESPONSE DATA TO', responseEncoder.encoding);
