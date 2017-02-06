@@ -18,7 +18,7 @@
     "package.loader": "^0",
     "prototype-less": "^0",
     "restfs-lib-mapper": "^0",
-    "useragent": "^2.1.8"
+    "useragent": "^2.1.12"
   },
   "devDependencies": {
     "chai": "^3.4.1",
