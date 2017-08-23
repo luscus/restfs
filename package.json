@@ -10,7 +10,7 @@
     "skeleton"
   ],
   "dependencies": {
-    "accepts": "^1.3.0",
+    "accepts": "^1.3.4",
     "clone": "^2.1.0",
     "deep-lib": "^1",
     "media-typer": "^0.3.0",
