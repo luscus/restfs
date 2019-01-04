@@ -27,7 +27,7 @@
     "gulp-jsdoc-to-markdown": "^1.2.0",
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.6",
-    "gulpfile.basics": "^0",
+    "gulpfile.basics": "^0.0.8",
     "mocha": "^3.2.0"
   },
   "repository": {
