@@ -15,7 +15,7 @@
     "deep-lib": "^1",
     "media-typer": "^0.3.0",
     "merge": "^1.2.0",
-    "package.loader": "^0",
+    "package.loader": "^0.4.1",
     "prototype-less": "^0",
     "restfs-lib-mapper": "^0",
     "useragent": "^2.1.8"
