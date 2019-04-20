@@ -16,7 +16,7 @@
     "media-typer": "^0.3.0",
     "merge": "^1.2.0",
     "package.loader": "^0",
-    "prototype-less": "^0",
+    "prototype-less": "^0.1.2",
     "restfs-lib-mapper": "^0",
     "useragent": "^2.1.8"
   },
