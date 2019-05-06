@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "chai": "^3.4.1",
-    "gulp": "^3.9.0",
+    "gulp": "^4.0.2",
     "gulp-concat": "^2.6.0",
     "gulp-jsdoc-to-markdown": "^1.2.0",
     "gulp-rename": "^1.2.2",
